@@ -23,6 +23,7 @@ let SG8RPDP = {
   fp: 8.9,
   E: 8000,
   EI: 5400,
+  Elb: 6700,
   JD: "J5",
   k12: 1,
   k11Per: 14.9,
@@ -38,6 +39,7 @@ let SG6RPDP = {
   fp: 8.9,
   E: 6000,
   EI: 4000,
+  Elb: 5000,
   JD: "J5",
   k12: 1,
   k11Per: 14.9,
@@ -55,6 +57,7 @@ let SG8DFDP = {
   fp: 8.9,
   E: 8000,
   EI: 5400,
+  Elb: 6700,
   k2long: 2,
   k2short: 1,
   JD: "J5",
@@ -73,6 +76,7 @@ let SG6DFDP = {
   fp: 8.9,
   E: 6000,
   EI: 4000,
+  Elb: 5000,
   k2long: 2,
   k2short: 1,
   JD: "J5",
@@ -91,6 +95,7 @@ let SG6DFWP = {
   fp: 5.3,
   E: 4800,
   EI: 3200,
+  Elb: 4000,
   k2long: 3,
   k2short: 1,
   JD: "J5",
@@ -108,6 +113,7 @@ let SG8DFWP = {
   fp: 5.3,
   E: 6500,
   EI: 4400,
+  Elb: 5450,
   k2long: 3,
   k2short: 1,
   JD: "J5",
@@ -126,6 +132,7 @@ let LVL8 = {
   fp: 7,
   E: 8000,
   EI: 7000,
+  Elb: 7500,
   k2long: 2,
   k2short: 1,
   JD: "J5", // For bolt on Face
@@ -144,6 +151,7 @@ let LVL11 = {
   fp: 10,
   E: 11000,
   EI: 9900,
+  Elb: 10450,
   k2long: 2,
   k2short: 1,
   JD: "J2", // For bolt on Face lateral load Nelson pine
@@ -162,6 +170,7 @@ let LVL13 = {
   fp: 10,
   E: 13200,
   EI: 11000,
+  Elb: 12100,
   k2long: 2,
   k2short: 1,
   JD: "J2", // For bolt on Face lateral load Nelson pine
@@ -318,6 +327,34 @@ let memberproperties = function (member) {
     b = 45;
     gr = "SG8Wet";
     membername = "290x45 SG8 Wet";
+    MCondition = "Wet (Moisture in timber is less than 25%)";
+  } else if (member == "SG815050wet") {
+    moisture = "wet";
+    d = 150;
+    b = 50;
+    gr = "SG8Wet";
+    membername = "150x50 SG8 Wet";
+    MCondition = "Wet (Moisture in timber is less than 25%)";
+  } else if (member == "SG820050wet") {
+    moisture = "wet";
+    d = 200;
+    b = 50;
+    gr = "SG8Wet";
+    membername = "200x50 SG8 Wet";
+    MCondition = "Wet (Moisture in timber is less than 25%)";
+  } else if (member == "SG825050wet") {
+    moisture = "wet";
+    d = 250;
+    b = 50;
+    gr = "SG8Wet";
+    membername = "250x50 SG8 Wet";
+    MCondition = "Wet (Moisture in timber is less than 25%)";
+  } else if (member == "SG830050wet") {
+    moisture = "wet";
+    d = 300;
+    b = 50;
+    gr = "SG8Wet";
+    membername = "300x50 SG8 Wet";
     MCondition = "Wet (Moisture in timber is less than 25%)";
   } else if (member == "SG610050Dry") {
     moisture = "dry";
@@ -511,6 +548,14 @@ let memberproperties = function (member) {
     membername = "450x45 LVL13";
     MCondition =
       "Dry (Moisture in timber is less than 16% and timber does not remain in continuous wet condition after installation)";
+  } else if (member == "45063LVL13") {
+    moisture = "dry";
+    d = 450;
+    b = 63;
+    gr = "lvl13";
+    membername = "450x63 LVL13";
+    MCondition =
+      "Dry (Moisture in timber is less than 16% and timber does not remain in continuous wet condition after installation)";
   } else if (member == "20063LVL13") {
     moisture = "dry";
     d = 200;
@@ -650,73 +695,81 @@ let memberproperties = function (member) {
       "Dry (Moisture in timber is less than 16% and timber does not remain in continuous wet condition after installation)";
   } else if (member == "100SED") {
     moisture = "dry";
-    d = 150;
+    d = 112.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "150 SED H5";
+    membername = "100 SED H5";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "125SED") {
     moisture = "dry";
-    d = 175;
+    d = 137.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "175 SED H5)";
+    membername = "125 SED H5)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   }  else if (member == "150SED") {
     moisture = "dry";
-    d = 200;
+    d = 162.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "150 SED H5 (Minimum 200 dia. at Floor Level)";
+    membername = "150 SED H5 (Minimum 175 dia. at Floor Level)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "175SED") {
     moisture = "dry";
-    d = 225;
+    d = 187.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "175 SED H5 (Minimum 225 dia. at Floor Level)";
+    membername = "175 SED H5 (Minimum 200 dia. at Floor Level)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "200SED") {
     moisture = "dry";
-    d = 250;
+    d = 212.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "200 SED H5 (Minimum 250 dia. at Floor Level)";
+    membername = "200 SED H5 (Minimum 225 dia. at Floor Level)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "225SED") {
     moisture = "dry";
-    d = 275;
+    d = 237.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "225 SED H5 (Minimum 275 dia. at Floor Level)";
+    membername = "225 SED H5 (Minimum 250 dia. at Floor Level)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "250SED") {
     moisture = "dry";
-    d = 300;
+    d = 262.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "250 SED H5 (Minimum 300 dia. at Floor Level)";
+    membername = "250 SED H5 (Minimum 275 dia. at Floor Level)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "275SED") {
     moisture = "dry";
-    d = 325;
+    d = 287.5;
     grade = NRoundPS;
     k20 = "Peeling";
-    membername = "275 SED H5 (Minimum 325 dia. at Floor Level)";
+    membername = "275 SED H5 (Minimum 300 dia. at Floor Level)";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
   } else if (member == "300SED") {
     moisture = "dry";
-    d = 350;
+    d = 312.5;
     grade = NRoundPS;
-    membername = "300 SED H5 (Minimum 350 dia. at Floor Level)";
+    membername = "300 SED H5 (Minimum 325 dia. at Floor Level)";
+    k20 = "Peeling";
+    MCondition =
+      "Dry (Pole does not remain in continuous wet condition after installation)";
+  } else if (member == "350SED") {
+    moisture = "dry";
+    d = 362.5;
+    grade = NRoundPS;
+    membername = "350 SED H5 (Minimum 375 dia. at Floor Level)";
     k20 = "Peeling";
     MCondition =
       "Dry (Pole does not remain in continuous wet condition after installation)";
@@ -1116,6 +1169,7 @@ exports.analysis = function (
   let UDnL = 1.2 * Number(Dl) + 1.5 * Number(Ll); // Medium term k1 = 0.8
   let UDnWd = 1.2 * Number(Dl) + Number(WindDown); // Medium term k1 = 0.8
   let UDnSnd = 1.2 * Number(Dl) + Number(Snd); // Medium term k1 = 0.8
+ 
   let UDnWu = 0.9 * Number(Dl) - Number(Wu); // short term K1 = 1
   let Pl = 1.1; // short term k1=1
   l1 = RafterSpanI - PropL;
@@ -1131,6 +1185,7 @@ exports.analysis = function (
     (1.2 * pSpacing * Dl * PSpan ** 2) / 8000000000 +
       (0.55 * PSpan * 0.5) / 1000
   ).toFixed(2);
+ 
   let PMshortu = ((UDnWu * pSpacing * PSpan ** 2) / 8000000000).toFixed(2);
   let reaction = Math.max(
     (UDl * pSpacing * PSpan, Math.max(UDnL, UDnWd, UDnSnd) * pSpacing * PSpan) /
@@ -1145,6 +1200,7 @@ exports.analysis = function (
   ).toFixed(2);
   let vlongRE = ((UDl * RSpacingE * RSpanE) / 2000000).toFixed(2);
   let PMLongRE = ((UDl * RSpacingE * RSpanE ** 2) / 8000000000).toFixed(2);
+  
   let PMMediumRE = Math.max(
     (Math.max(UDnL, UDnWd, UDnSnd) * RSpacingE * RSpanE ** 2) / 8000000000,
     (1.2 * RSpacingE * Dl * RSpanE ** 2) / 8000000000 +
@@ -1381,7 +1437,7 @@ exports.beamdesign = function (
   Ll,
   RSpI,
   RSpaI,
-  memberRI
+  IL
 ) {
   let BRes = Number(BottomRest);
   let TRes = Number(TopRes);
@@ -1397,7 +1453,7 @@ exports.beamdesign = function (
 
   memberproperties(member);
 
-  let k24 = (300 / d) ** 0.167;
+  let k24 = Math.min((300 / d) ** 0.167,1);
 
   if (gr == "SG8") {
     grade = SG8DFDP;
@@ -1415,8 +1471,9 @@ exports.beamdesign = function (
     grade = SG8DFWP
   }
 
-  s1u = 1.35 * ((BRes / b) * ((d / b) ** 2 - 1) ** 0.5) ** 0.5;
-  s1d = 1.35 * ((TRes / b) * ((d / b) ** 2 - 1) ** 0.5) ** 0.5;
+  s1u = 1.35 * ((BRes / b) * (((d / b) ** 2) - 1) ** 0.5) ** 0.5;
+  s1d = 1.35 * ((TRes / b) * (((d / b) ** 2) - 1) ** 0.5) ** 0.5;
+  
   if (moisture == "dry") {
     a1 = 0.21;
     a2 = 0.175;
@@ -1505,19 +1562,30 @@ exports.beamdesign = function (
   ).toFixed(2);
 
   let deflong = (
-    (grade.k2long * 5 * Dl * pSpacing * PSpan ** 4) / (384000 * I * grade.E) +
+    (grade.k2long * 5 * Dl * pSpacing * PSpan ** 4) / (384000 * I * grade.Elb) +
     (grade.k2short * 0.4 * 5 * Ll * pSpacing * PSpan ** 4) /
-      (384000 * I * grade.E)
+      (384000 * I * grade.Elb)
   ).toFixed(2);
 
   let defshort = (
-    (grade.k2long * 5 * Dl * pSpacing * PSpan ** 4) / (384000 * I * grade.E) +
+    (grade.k2long * 5 * Dl * pSpacing * PSpan ** 4) / (384000 * I * grade.Elb) +
     (grade.k2short * 5 * windDown * pSpacing * 0.5 * PSpan ** 4) /
-      (384000 * I * grade.E)
+      (384000 * I * grade.Elb)
   ).toFixed(2);
+  
+  
+  console.log(IL);
 
-  let Deflimit = (PSpan / 250).toFixed(2);
-  let Deflimitwn = (PSpan / 120).toFixed(2);
+  let Deflimit = "";
+  let Deflimitwn = "";
+
+if (IL == "IL1") {
+  Deflimit = (PSpan / 240).toFixed(2);
+  Deflimitwn = (PSpan / 100).toFixed(2);
+} else {
+  Deflimit = (PSpan / 360).toFixed(2);
+  Deflimitwn = (PSpan / 150).toFixed(2);
+}
 
   return [
     {
@@ -1546,7 +1614,7 @@ exports.beamdesign = function (
       MCondition: MCondition,
       deflong: deflong,
       defshort: defshort,
-      E: grade.E,
+      E: grade.Elb,
       k2long: grade.k2long,
       Deflimit: Deflimit,
       Deflimitwn: Deflimitwn,
@@ -1572,7 +1640,8 @@ exports.rafterdesign = function (
   Noda,
   Pole,
   daProp,
-  NodaProp
+  NodaProp,
+  IL
 ) {
   let Poledia = "";
   if (Pole == "150SED") {
@@ -1627,8 +1696,11 @@ exports.rafterdesign = function (
     MReactionPropLongImp
   );
 
-  let k24 = (300 / d) ** 0.167;
+
+  
   memberproperties(member);
+  let k24 = Math.min((300 / d) ** 0.167, 1);
+  
   if (gr == "SG8") {
     grade = SG8DFDP;
   } else if (gr == "SG6Wet") {
@@ -1712,6 +1784,7 @@ exports.rafterdesign = function (
     (0.8 * k1short * k4 * k5 * k8d * grade.fb * k24 * (b * d ** 2)) /
     6000000
   ).toFixed(2);
+  
   let Mnumedium = (
     (0.8 * k1medium * k4 * k5 * k8d * grade.fb * k24 * (b * d ** 2)) /
     6000000
@@ -1780,9 +1853,16 @@ exports.rafterdesign = function (
     deflong = MDefLong * grade.k2long;
     defshort = MDefShort;
   }
+  let Deflimit = "";
+  let Deflimitwn = "";
+  if (IL == "IL1") {
+    Deflimit = (RSpanI / 240).toFixed(2);
+    Deflimitwn = (RSpanI / 100).toFixed(2);
+  } else {
+    Deflimit = (RSpanI / 360).toFixed(2);
+    Deflimitwn = (RSpanI / 150).toFixed(2);
+  }
 
-  let Deflimit = (RSpanI / 250).toFixed(2);
-  let Deflimitwn = (RSpanI / 120).toFixed(2);
   
   return [
     {
@@ -1853,8 +1933,10 @@ exports.rafterdesignE = function (
   windDown,
   Ll,
   da,
-  Noda
+  Noda,
+  IL
 ) {
+
   let RSpacingI = Number(RSpI) / 2;
   let RSpanI = Number(RSpaI);
   moisture = "";
@@ -1866,7 +1948,7 @@ exports.rafterdesignE = function (
   memberproperties(member);
   BoltPerpendicularExternal(100, da, Noda, member);
 
-  let k24 = (300 / d) ** 0.167;
+  let k24 = Math.min( (300 / d) ** 0.167, 1);
 
   if (gr == "SG8") {
     grade = SG8DFDP;
@@ -1984,8 +2066,17 @@ exports.rafterdesignE = function (
     (grade.k2short * 5 * windDown * RSpacingI * 0.5 * RSpanI ** 4) /
       (384000 * I * grade.EI)
   ).toFixed(2);
-  let Deflimit = (RSpanI / 250).toFixed(2);
-  let Deflimitwn = (RSpanI / 120).toFixed(2);
+
+  let Deflimit = "";
+  let Deflimitwn = "";
+  if (IL == "IL1") {
+    Deflimit = (RSpanI / 240).toFixed(2);
+    Deflimitwn = (RSpanI / 100).toFixed(2);
+  } else {
+    Deflimit = (RSpanI / 360).toFixed(2);
+    Deflimitwn = (RSpanI / 150).toFixed(2);
+  }
+
 
   return [
     {
@@ -2045,7 +2136,8 @@ exports.IntermediateFB = function (
   MaxGirtSpan,
   IFBAuto,
   IFBSpan,
-  IFBWidth
+  IFBWidth,
+  IL
 ) {
   let IFBDisplay = "";
   let bayWidth = "";
@@ -2086,7 +2178,7 @@ exports.IntermediateFB = function (
   membername = "";
   MCondition = "";
   memberproperties(member);
-  let k24 = (300 / d) ** 0.167;
+  let k24 = Math.min((300 / d) ** 0.167,1);
 
   if (gr == "SG8") {
     grade = SG8DFDP;
@@ -2165,10 +2257,12 @@ exports.IntermediateFB = function (
       6000000
     ).toFixed(2);
    
+    
   let MApplied = (
     (Math.max(Number(wind), Number(Snow)) * bayWidth * 0.5 * Span ** 2) /
     8000
   ).toFixed(2);
+  
 
   let reaction = (
     (Math.max(Number(wind), Number(Snow)) * bayWidth * 0.5 * Span) /
@@ -2182,8 +2276,19 @@ exports.IntermediateFB = function (
       (grade.k2short * 5 * Snow * bayWidth * 0.5 * (Span * 1000) ** 4) /
         (384000 * I * grade.EI)
     ).toFixed(2);
+    
+    let Deflimitwn = "";
 
-  let Deflimitwn = ((Span * 1000) / 120).toFixed(2);
+    
+    if (IL == "IL1") {
+      
+      Deflimitwn = (Span*1000 / 100).toFixed(2);
+    } else {
+      
+      Deflimitwn = (Span*1000 / 250).toFixed(2);
+    }
+
+  
 
   return [
     {
@@ -2214,6 +2319,7 @@ exports.IntermediateFB = function (
       IFBDisplay: IFBDisplay,
       IFBSpan: IFBSpan,
       IFBWidth: IFBWidth,
+      IL
     },
   ];
 };
@@ -2231,7 +2337,8 @@ exports.IntermediateSides = function (
   MaxGirtSpan,
   ISIAuto,
   ISISpan,
-  ISIWidth
+  ISIWidth,
+  IL
 ) {
   let Span = " ";
   let BSpan = "";
@@ -2288,7 +2395,7 @@ exports.IntermediateSides = function (
   membername = "";
   MCondition = "";
   memberproperties(member);
-  let k24 = (300 / d) ** 0.167;
+  let k24 = Math.min((300 / d) ** 0.167,1);
 
   if (gr == "SG8") {
     grade = SG8DFDP;
@@ -2387,7 +2494,16 @@ exports.IntermediateSides = function (
         (384000 * I * grade.EI)
     ).toFixed(2);
 
-  let Deflimitwn = ((Span * 1000) / 120).toFixed(2);
+    let Deflimitwn = "";
+
+    
+    if (IL == "IL1") {
+      
+      Deflimitwn = (Span*1000 / 100).toFixed(2);
+    } else {
+      
+      Deflimitwn = (Span*1000 / 250).toFixed(2);
+    }
 
   return [
     {
@@ -2422,16 +2538,18 @@ exports.IntermediateSides = function (
   ];
 };
 
-exports.GirtsFB = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan,gFBBlocking) {
-  let Span = Number(Bayw);
+exports.GirtsFB = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan,gFBBlocking, InDisplay,IL) {
+ 
   let spacing = Number(Gspacing);
-
+  let Spaning = 1;
   let display = "";
   if (Bayw <= MaxGirtSpan) {
     display = "";
   } else {
-    display = "none";
+    display = ""; //none
+    Spaning = 0.5;
   }
+  let Span = Number(Bayw)* Spaning;
 
   let Snow = Number(Sn);
   moisture = "";
@@ -2442,7 +2560,7 @@ exports.GirtsFB = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan,gFBBlo
   MCondition = "";
   memberproperties(member);
 
-  let k24 = (300 / d) ** 0.167;
+  let k24 = Math.min((300 / d) ** 0.167,1);
 
   if (gr == "SG8") {
     grade = SG8DFDP;
@@ -2524,25 +2642,33 @@ exports.GirtsFB = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan,gFBBlo
   ).toFixed(2);
 
   let MApplied = (
-    (Math.max(Number(wind), Number(Snow)) * spacing * 0.5 * Span ** 2) /
+    (Math.max(Number(wind), Number(Snow)) * spacing  * Span ** 2) /
     8000000000
   ).toFixed(2);
-
   let reaction = (
-    (Math.max(Number(wind), Number(Snow)) * spacing * 0.5 * Span) /
+    (Math.max(Number(wind), Number(Snow)) * spacing  * Span) /
     2000000
   ).toFixed(2);
   let defshort = (
-    (grade.k2short * 5 * wind * spacing * 1000 * 0.5 * Span ** 4) /
-      (384000000 * I * grade.E) +
-    (grade.k2short * 5 * Snow * spacing * 1000 * 0.5 * Span ** 4) /
-      (384000000 * I * grade.E)
+    (grade.k2short * 5 * wind * spacing * 1000  * Span ** 4) /
+      (384000000 * I * grade.Elb) +
+    (grade.k2short * 5 * Snow * spacing * 1000  * Span ** 4) /
+      (384000000 * I * grade.Elb)
   ).toFixed(2);
   let Isag = (d * b ** 3) / 12;
   let Selfweight = (d * b * 6.5) / 1000000;
-  let sag = (1 * 5 * Selfweight * Span ** 4) / (384 * Isag * grade.E);
+  let sag = (1 * 5 * Selfweight * Span ** 4) / (384 * Isag * grade.Elb);
 
-  let Deflimitwn = (Span / 120).toFixed(2);
+  let Deflimitwn = "";
+
+    
+  if (IL == "IL1") {
+    
+    Deflimitwn = (Span / 100).toFixed(2);
+  } else {
+    
+    Deflimitwn = (Span / 250).toFixed(2);
+  }
 
   return [
     {
@@ -2566,7 +2692,7 @@ exports.GirtsFB = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan,gFBBlo
       member: membername,
       MCondition: MCondition,
       defshort: defshort,
-      E: grade.E,
+      E: grade.Elb,
       k2short: grade.k2short,
       Deflimitwn: Deflimitwn,
       display: display,
@@ -2576,17 +2702,22 @@ exports.GirtsFB = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan,gFBBlo
   ];
 };
 
-exports.GirtsSi = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan, gSIBlocking) {
-  let Span = Number(Bayw);
+exports.GirtsSi = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan, gSIBlocking,IL) {
+
   let spacing = Number(Gspacing);
+  let Spaning = "";
 
   let display = "";
   if (Bayw <= MaxGirtSpan) {
     display = "";
+    Spaning = 1;
   } else {
-    display = "none";
+    display = ""; //none
+    Spaning = 0.5;
   }
-
+ 
+  
+  let Span = Number(Bayw) * Spaning;
   let Snow = Number(Sn);
   moisture = "";
   d = "";
@@ -2596,7 +2727,7 @@ exports.GirtsSi = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan, gSIBl
   MCondition = "";
   memberproperties(member);
 
-  let k24 = (300 / d) ** 0.167;
+  let k24 = Math.min((300 / d) ** 0.167,1);
   if (gr == "SG8") {
     grade = SG8DFDP;
   } else if (gr == "SG6Wet") {
@@ -2674,26 +2805,37 @@ exports.GirtsSi = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan, gSIBl
     6000000
   ).toFixed(2);
 
+  
+    
   let MApplied = (
-    (Math.max(Number(wind), Number(Snow)) * spacing * 0.5 * Span ** 2) /
+    (Math.max(Number(wind), Number(Snow)) * spacing  * Span ** 2) /
     8000000000
   ).toFixed(2);
-
+  
   let reaction = (
-    (Math.max(Number(wind), Number(Snow)) * spacing * 0.5 * Span) /
+    (Math.max(Number(wind), Number(Snow)) * spacing  * Span) /
     2000000
   ).toFixed(2);
   let defshort = (
-    (grade.k2short * 5 * wind * spacing * 1000 * 0.5 * Span ** 4) /
-      (384000000 * I * grade.E) +
-    (grade.k2short * 5 * Snow * spacing * 1000 * 0.5 * Span ** 4) /
-      (384000000 * I * grade.E)
+    (grade.k2short * 5 * wind * spacing * 1000  * Span ** 4) /
+      (384000000 * I * grade.Elb) +
+    (grade.k2short * 5 * Snow * spacing * 1000 * Span ** 4) /
+      (384000000 * I * grade.Elb)
   ).toFixed(2);
   let Isag = (d * b ** 3) / 12;
   let Selfweight = (d * b * 6.5) / 1000000;
-  let sag = (1 * 5 * Selfweight * Span ** 4) / (384 * Isag * grade.E);
+  let sag = (1 * 5 * Selfweight * Span ** 4) / (384 * Isag * grade.Elb);
 
-  let Deflimitwn = (Span / 120).toFixed(2);
+  let Deflimitwn = "";
+
+    
+  if (IL == "IL1") {
+    
+    Deflimitwn = (Span / 100).toFixed(2);
+  } else {
+    
+    Deflimitwn = (Span / 250).toFixed(2);
+  }
 
   return [
     {
@@ -2717,7 +2859,7 @@ exports.GirtsSi = function (member, Bayw, Gspacing, wind, Sn, MaxGirtSpan, gSIBl
       member: membername,
       MCondition: MCondition,
       defshort: defshort,
-      E: grade.E,
+      E: grade.Elb,
       k2short: grade.k2short,
       Deflimitwn: Deflimitwn,
       display: display,
@@ -2798,7 +2940,8 @@ exports.PoleDesignI = function (
   DL,
   Cohesion,
   Friction,
-  Density
+  Density,
+  IL
 ) {
   let IntermediateSideDisplay = "";
   if (InSideDisplay == "Hide") {
@@ -2873,8 +3016,21 @@ exports.PoleDesignI = function (
   } else {
     Manualdisplay = "";
   }
-
+  
   let gamma = Number(Density) || 18;
+
+  let EQp = "";
+  let SNp = "";
+  console.log(IL)
+  if (IL == "IL1") {
+    EQp = 100;
+    SNp = 50;
+    IL=1
+  } else {
+    EQp=500;
+    SNp = 150;
+    IL=2
+  }
 
   // let NoofColumns =
   //   (Number(noOfColInMiddleBay) + 1) * (Number(noOfBay) - 1) +
@@ -2895,7 +3051,7 @@ exports.PoleDesignI = function (
   let phi = 0.55;
   let kp = ((1+Math.sin((Number(Friction) * Math.PI) / 180))/(1-Math.sin((Number(Friction) * Math.PI) / 180))).toFixed(2);
   let k0 = (1/kp).toFixed(2);
-  console.log(kp,k0);
+ 
   let Ds = 0.6;
   let Hu =
     (phi * (kp * Ds * (poleDepth / 1000) ** 3 * gamma)) /
@@ -2938,10 +3094,11 @@ exports.PoleDesignI = function (
   } else if (rafter == "30090LVL11") {
     dr = 300;
   } else {
-    d = 0;
+    dr = 200;
   }
 
   memberproperties(member);
+ 
 
   let Area = (3.14 * d ** 2) / 4;
   let ShearArea = Area * 0.75;
@@ -3063,7 +3220,29 @@ exports.PoleDesignI = function (
       (3 * RHeight * 1000 * 1.33 - RHeight * 1000)) /
       (6 * grade.E * Ipole * 2)
   );
-  let Deflimit = MPoleHeight / 75;
+
+  let Deflimit = " ";
+  let VerDefDead = " ";
+  let VerDefWind="";
+  let LatDef = "";
+console.log(IL)
+
+  if (IL == 1){
+
+    Deflimit = MPoleHeight / 100;
+    VerDefDead = 240;
+    VerDefWind= 100;
+    LatDef = 100;
+
+  } else {
+    Deflimit = MPoleHeight / 150;
+    VerDefDead = 360;
+    VerDefWind=150;
+    LatDef = 150;
+  }
+
+  console.log(VerDefDead, VerDefWind, LatDef);
+
   //footing design
 
   let FcheckM = Math.max(MWindLateralPole, MSnowLateralPole) / (Mu * 1000000);
@@ -3212,7 +3391,14 @@ exports.PoleDesignI = function (
       Friction:Friction || 30,
       Density:Density || 18,
       kpcoefficient:kp,
-      k0coefficient:k0
+      k0coefficient:k0,
+      IL:IL,
+      EQp: EQp,
+      SNp: SNp,
+      conpiledia: conpiledia,
+      VerDefDead: VerDefDead,
+      VerDefWind: VerDefWind,
+      LatDef: LatDef
     },
   ];
 };
@@ -3240,20 +3426,26 @@ exports.PoleDesignE = function (
   DL,
   Cohesion,
   Friction,
-  Density
+  Density,
+  Geotech,
+  IL
 ) {
+  
   soil = soil || 300;
+      
+  Geotech = Geotech || "an Ultimate foundation bearing pressure of" +" "+soil+" "+ "kPa in accordance with NZS3604:2011";
+  
   let displayb2 = "";
-  if (b2 == "Yes") {
-    displayb2 = "";
-  } else {
+  if (b2 == "No") {
     displayb2 = "none";
+  } else {
+    displayb2 = "";
   }
   let gamma = Number(Density) || 18;
   let phi = 0.55;
   let kp = ((1+Math.sin((Number(Friction) * Math.PI) / 180))/(1-Math.sin((Number(Friction) * Math.PI) / 180))).toFixed(2);
   let k0 = (1/kp).toFixed(2);
-  console.log(kp,k0);
+  
   let Ds = 0.6;
   let Hu =
     (phi * (kp * Ds * (poleDepth / 1000) ** 3 * gamma)) /
@@ -3294,7 +3486,7 @@ exports.PoleDesignE = function (
   } else if (rafter == "24045LVL8") {
     dr = 240;
   } else {
-    d = 0;
+    dr = 200;
   }
 
   memberproperties(member);
@@ -3351,7 +3543,7 @@ exports.PoleDesignE = function (
   let PhiNcxS = PhiNcxW * 0.8;
   let PhiMnS = PhiMn * 0.8;
   let PhiVnS = PhiVn * 0.8;
-  let areaOverPole = RSpacingI * RSpanI * 0.5;
+  let areaOverPole = RSpacingI * RSpanI ;
   let DeadLoad = areaOverPole *  DL;
   let LiveLoad = areaOverPole * 0.25;
   let windLoad = areaOverPole * wind;
@@ -3385,7 +3577,19 @@ exports.PoleDesignE = function (
       (3 * RHeight * 1000 * 1.33 - RHeight * 1000)) /
       (6 * grade.E * Ipole * 2)
   );
-  let Deflimit = (RHeight * 1000 * 1.33) / 75;
+
+  let Deflimit = " ";
+
+
+  if (IL == "IL1"){
+
+    Deflimit = (RHeight * 1000 * 1.33) / 100;
+  } else {
+
+    Deflimit = (RHeight * 1000 * 1.33) / 150;
+  }
+
+ 
   //footing design
 
   let FcheckM = Math.max(MwindLateral, SnMoment) / (Mu * 1000000);
@@ -3476,7 +3680,9 @@ exports.PoleDesignE = function (
       poleDepth: poleDepth,
       TotalArea: areaOverPole / 1000000,
       kpcoefficient:kp,
-      k0coefficient:k0
+      k0coefficient:k0,
+      conpiledia: conpiledia,
+      Geotech: Geotech
     },
   ];
 };

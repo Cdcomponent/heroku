@@ -10,24 +10,57 @@ const homeRoutes = require("./routes/home-routes");
 const path = require("path");
 const alert = require("alert");
 const expressLayouts = require("express-ejs-layouts");
+const multer = require('multer')
 
 
+
+var http = require('http');
+var formidable = require('formidable');
+
+
+http.createServer(function (req, res) {
+  if (req.url == '/fileupload') {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.filetoupload.filepath;
+      //var newpath = 'C:/Steel Clients/';
+      var newpath = './pdfs/' + files.filetoupload.originalFilename;
+      // C:/Users/61439/OneDrive - Ezequote/steel work/New Zealand Standards/By Components/pdfs/
+      fs.copyFile(oldpath, newpath, function (err) {
+        if (err) throw err;
+        res.write('File uploaded and moved!');
+        res.end();
+        // Delete the temp file
+        fs.unlink(oldpath, function (err) {
+          if (err) throw err;
+        });
+      });
+    });
+  } else {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write('<form action="fileupload" method="post" enctype="multipart/form-data">');
+    res.write('<input type="file" name="filetoupload"><br>');
+    res.write('<input type="submit">');
+    res.write('</form>');
+    return res.end();
+  }
+}).listen(80);
 
 //db.js
 
 const url = "mongodb+srv://BurhanIqbal:Pakistan1234@cluster0.oddvb.mongodb.net/?retryWrites=true&w=majority";
 
-const connectionParams={
-    useNewUrlParser: true,
-    useUnifiedTopology: true 
+const connectionParams = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 }
-mongoose.connect(url,connectionParams)
-    .then( () => {
-        console.log('Connected to database ')
-    })
-    .catch( (err) => {
-        console.error(`Error connecting to the database. \n${err}`);
-    })
+mongoose.connect(url, connectionParams)
+  .then(() => {
+    console.log('Connected to database ')
+  })
+  .catch((err) => {
+    console.error(`Error connecting to the database. \n${err}`);
+  })
 
 const {
   analysis,
@@ -48,6 +81,7 @@ const { snowLoads } = require("./modules/snowloads");
 const {
   options,
   shedType,
+  IL,
   roofType,
   condition,
   PSize,
@@ -127,6 +161,7 @@ const jobSchema = {
   WSpeed: Number,
   ari: Number,
   shedType: [],
+  IL: [],
   length: Number,
   width: Number,
   chlength: Number,
@@ -250,6 +285,7 @@ app.get("/", function (req, res) {
     leeZone: "",
     WSpeed: "",
     shedType: " ",
+    IL: "",
     length: " ",
     width: " ",
     chlength: " ",
@@ -340,7 +376,7 @@ app.get("/:ejobNumber", function (req, res) {
           res.render("list", {
             jobNumber: foundJob.jobNumber,
             address: foundJob.address,
-            date: foundJob.date,
+            date: d.toLocaleDateString(),
             latitude: foundJob.latitude,
             longitude: foundJob.longitude,
             elevation: foundJob.elevation,
@@ -351,6 +387,7 @@ app.get("/:ejobNumber", function (req, res) {
             leeZone: foundJob.leeZone,
             WSpeed: foundJob.WSpeed,
             shedType: foundJob.shedType,
+            IL: foundJob.IL,
             length: foundJob.length,
             width: foundJob.width,
             chlength: foundJob.chlength,
@@ -439,7 +476,7 @@ app.get("/:ejobNumber", function (req, res) {
 app.post("/", function (req, res) {
   let ejobNumber = req.body.jobNumber;
   let dataBuffer = fs.readFileSync(
-    "C:/Steel Clients/Sheds/" + ejobNumber + "/Site Report.pdf"
+    "./pdfs/" + ejobNumber + ".pdf"
   );
   pdf(dataBuffer).then(function (data) {
     chlength = data.text
@@ -507,21 +544,21 @@ app.post("/", function (req, res) {
       PoleLoadWidth = Number(req.body.PLWManual);
       RISManual = Number(req.body.RISManual);
     }
-    
+
     Moment = analysis(
       DL,
       0.25,
       req.body.RMaxU,
       req.body.RMaxD,
       snowLoads(elevation, req.body.snowZone, req.body.RoofPitch)[1],
-      addedwidth - 200,
+      addedwidth - 150,
       RISManual,
       req.body.pSpacing,
       PoleLoadWidth,
       (
         (chwidth * 1000) /
-          req.body.NoOfColInEndBay /
-          Math.cos((req.body.RoofPitch * Math.PI) / 180) -
+        req.body.NoOfColInEndBay /
+        Math.cos((req.body.RoofPitch * Math.PI) / 180) -
         200
       ).toFixed(0),
       addedwidth / 2,
@@ -548,7 +585,9 @@ app.post("/", function (req, res) {
       req.body.WMax,
       snowLoads(elevation, req.body.snowZone, req.body.RoofPitch)[1],
       req.body.MaxGirtSpan,
-      req.body.gFBBlocking
+      req.body.gFBBlocking,
+      req.body.InDisplay,
+      req.body.IL
     );
 
     GirtsSides = GirtsSi(
@@ -558,12 +597,14 @@ app.post("/", function (req, res) {
       req.body.WMax,
       snowLoads(elevation, req.body.snowZone, req.body.RoofPitch)[1],
       req.body.MaxGirtSpan,
-      req.body.gSIBlocking
+      req.body.gSIBlocking,
+      req.body.IL
     );
 
     MomentLong = Moment[0].MomentLong;
     MomentMedium = Moment[0].MomentMedium;
     MomentShort = Moment[0].MomentShort;
+
     MomentCapacity = beamdesign(
       req.body.purlinSize,
       (addedwidth - 200) / req.body.Blocking,
@@ -575,7 +616,8 @@ app.post("/", function (req, res) {
       req.body.RMaxD,
       0.25,
       addedwidth,
-      (chwidth / req.body.noOfColInMiddleBay) * 1000 - 200
+      (chwidth / req.body.noOfColInMiddleBay) * 1000 - 200,
+      req.body.IL
     );
 
     RafterCapacity = rafterdesign(
@@ -596,7 +638,8 @@ app.post("/", function (req, res) {
       req.body.Noda,
       req.body.MPole,
       req.body.RBoltProp,
-      req.body.NodaProp
+      req.body.NodaProp,
+      req.body.IL
     );
     RafterCapacityE = rafterdesignE(
       req.body.rafterSizeE,
@@ -607,7 +650,8 @@ app.post("/", function (req, res) {
       req.body.RMaxD,
       0.25,
       req.body.RBoltExternal,
-      req.body.NodaEx
+      req.body.NodaEx,
+      req.body.IL
     );
 
     IntermediateFrontBack = IntermediateFB(
@@ -623,7 +667,8 @@ app.post("/", function (req, res) {
       req.body.MaxGirtSpan,
       req.body.IFBAuto,
       req.body.IFBSpan,
-      req.body.IFBWidth
+      req.body.IFBWidth,
+      req.body.IL
     );
     IntermediateSIDES = IntermediateSides(
       req.body.IntermediateSides,
@@ -638,7 +683,8 @@ app.post("/", function (req, res) {
       req.body.MaxGirtSpan,
       req.body.ISIAuto,
       req.body.ISISpan,
-      req.body.ISIWidth
+      req.body.ISIWidth,
+      req.body.IL
     );
     PoleDesignInternal = PoleDesignI(
       req.body.MPoleDepth,
@@ -711,7 +757,8 @@ app.post("/", function (req, res) {
       DL,
       req.body.soilCohesion,
       req.body.soilFriction,
-      req.body.soilDensity
+      req.body.soilDensity,
+      req.body.IL
     );
     PoleDesignExternal = PoleDesignE(
       req.body.EPoleDepth,
@@ -731,12 +778,14 @@ app.post("/", function (req, res) {
       req.body.council,
       req.body.pages,
       req.body.dated,
-      req.body.b2,
+      req.body.b2, 
       req.body.soil,
       DL,
       req.body.soilCohesion,
       req.body.soilFriction,
-      req.body.soilDensity
+      req.body.soilDensity,
+      req.body.Geotech,
+      req.body.IL
     );
 
     Momentupshort = MomentCapacity[0].Momentupshort || 0;
@@ -763,6 +812,7 @@ app.post("/", function (req, res) {
             WSpeed: WSpeed,
             ari: ari,
             shedType: shedType(req.body.Type),
+            IL: IL(req.body.IL),
             length: req.body.Length,
             width: req.body.Width,
             chlength: chlength,
@@ -910,6 +960,7 @@ app.post("/", function (req, res) {
         leeZone: leeZone,
         ari: ari,
         shedType: shedType(req.body.Type),
+        IL: IL(req.body.type),
         length: req.body.Length,
         width: req.body.Width,
         chlength: chlength,
@@ -1044,7 +1095,7 @@ app.post("/delete", function (req, res) {
 });
 
 let port = process.env.PORT;
-if(port == null || port == "") {
+if (port == null || port == "") {
   port = 3000;
 }
 
